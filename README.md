@@ -1,1 +1,4 @@
-# configs
+# Config files
+
+- vim
+- tmux
