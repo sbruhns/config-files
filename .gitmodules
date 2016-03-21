@@ -1,3 +1,6 @@
 [submodule "fonts"]
 	path = fonts
 	url = git@github.com:powerline/fonts.git
+[submodule "vim-snipmate-ruby-snippets"]
+	path = vim-snipmate-ruby-snippets
+	url = git@github.com:kaichen/vim-snipmate-ruby-snippets.git

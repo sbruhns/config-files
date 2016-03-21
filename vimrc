@@ -12,9 +12,16 @@ Plugin 'tpope/vim-rails'
 Plugin 'scrooloose/nerdtree'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-endwise'
-Plugin 'benmills/vimux'
 Plugin 'thoughtbot/vim-rspec'
-" All of your Plugins must be added before the following line
+Plugin 'benmills/vimux'
+Plugin 'jgdavey/vim-turbux'
+Plugin 'tpope/vim-abolish'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+Plugin 'honza/vim-snippets'
+Plugin 'slim-template/vim-slim'
+Plugin 'kchmck/vim-coffee-script'
 call vundle#end()            " required
 
 set nocompatible
@@ -96,7 +103,6 @@ command! KillWhitespace :normal :%s/ *$//g<cr><c-o><cr>
 cmap w!! %!sudo tee > /dev/null %
 
 
-" Hitting mapleader twice toggles between the current and
 " previous opened buffer
 nnoremap <leader>m <c-^>
 
@@ -111,9 +117,11 @@ map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 
-" vimux stuff
+" vimux
+map <Leader>. :w<CR>:VimuxRunLastCommand<CR>
 map <Leader>v :VimuxPromptCommand<CR>
-map <Leader>. :VimuxRunLastCommand<CR>
+map .t :CtrlP .<CR>
+nnoremap .y :CtrlPTag<cr>
 
 " rails vim Mappings
 map <Leader>e :Rextract
