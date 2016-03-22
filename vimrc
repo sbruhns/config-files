@@ -22,6 +22,7 @@ Plugin 'garbas/vim-snipmate'
 Plugin 'honza/vim-snippets'
 Plugin 'slim-template/vim-slim'
 Plugin 'kchmck/vim-coffee-script'
+Plugin 'scrooloose/syntastic'
 call vundle#end()            " required
 
 set nocompatible
@@ -132,3 +133,19 @@ map <Leader>a :A<CR>
 
 let g:airline_powerline_fonts=1
 let g:Powerline_symbols='unicode'
+
+" syntastic
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+let g:syntastic_mode_map = {
+        \ "mode": "active",
+        \ "active_filetypes": [],
+        \ "passive_filetypes": ["sass", "scss"] }
+
+if has("mac") || has("macunix")
+  let g:syntastic_ruby_mri_exec = '~/.rbenv/shims/ruby'
+endif
+
+let g:syntastic_javascript_checkers = ['eslint']
