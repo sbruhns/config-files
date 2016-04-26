@@ -27,6 +27,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'stefanoverna/vim-i18n'
 Plugin 'Shougo/neocomplcache.vim'
 Plugin 'mileszs/ack.vim'
+Plugin 'majutsushi/tagbar'
 call vundle#end()            " required
 
 set nocompatible
