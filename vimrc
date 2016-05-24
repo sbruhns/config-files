@@ -1,14 +1,13 @@
-let g:rspec_command = "!spring rspec --drb {spec}"
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+Plugin 'henrik/vim-yaml-flattener'
 Plugin 'kien/ctrlp.vim'
 Plugin 'jpo/vim-railscasts-theme'
-" Plugin 'vim-scripts/AutoComplPop'
 Plugin 'bling/vim-airline'
 Plugin 'tpope/vim-bundler'
 Plugin 'tpope/vim-commentary'
-" Plugin 'airblade/vim-gitgutter'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-rails'
 Plugin 'scrooloose/nerdtree'
 Plugin 'terryma/vim-multiple-cursors'
@@ -28,6 +27,7 @@ Plugin 'stefanoverna/vim-i18n'
 Plugin 'Shougo/neocomplcache.vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'majutsushi/tagbar'
+Plugin 'elzr/vim-json'
 call vundle#end()            " required
 
 set nocompatible
@@ -123,6 +123,8 @@ map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 
+let g:rspec_command = "!spring rspec --drb {spec}"
+
 " vimux
 map <Leader>. :w<CR>:VimuxRunLastCommand<CR>
 map <Leader>v :VimuxPromptCommand<CR>
@@ -155,9 +157,9 @@ endif
 
 let g:syntastic_javascript_checkers = ['eslint']
 
-vmap <Leader>z :call I18nTranslateString()<CR>
+vmap <Leader>y :call I18nTranslateString()<CR>
 vmap <Leader>dt :call I18nDisplayTranslation()<CR>
-
+nmap <Leader>b :TagbarToggle<CR>
 
 
 " Disable AutoComplPop.
