@@ -28,6 +28,9 @@ Plugin 'Shougo/neocomplcache.vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'elzr/vim-json'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'git@github.com:sbruhns/phraseapp-vim.git'
+Plugin 'joshdick/onedark.vim'
 call vundle#end()            " required
 
 set nocompatible
@@ -37,7 +40,7 @@ filetype plugin indent on
 set number
 syntax on
 set t_Co=256
-color railscasts
+colorscheme onedark
 
 let mapleader=","
 
@@ -262,3 +265,12 @@ let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\
 " For perlomni.vim setting.
 " https://github.com/c9s/perlomni.vim
 let g:neocomplcache_force_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
+nmap <space> viw
+nmap ts :ts<CR>
+
+function! GenerateCtags()
+  :!ctags -R --languages=ruby --exclude=.git --exclude=log . $(bundle list --paths)
+endfunction
+
+command! GenerateCtags call GenerateCtags()
