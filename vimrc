@@ -31,6 +31,10 @@ Plugin 'elzr/vim-json'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'git@github.com:sbruhns/phraseapp-vim.git'
 Plugin 'joshdick/onedark.vim'
+Plugin 'fatih/vim-go'
+Plugin 'ngmy/vim-rubocop'
+Plugin 'morhetz/gruvbox'
+Plugin 'flazz/vim-colorschemes'
 call vundle#end()            " required
 
 set nocompatible
@@ -39,8 +43,10 @@ filetype plugin indent on
 
 set number
 syntax on
+colorscheme gruvbox
 set t_Co=256
-colorscheme onedark
+highlight Normal ctermbg=white
+" set background=dark
 
 let mapleader=","
 
@@ -150,7 +156,7 @@ nnoremap .y :CtrlPTag<cr>
 map <Leader>e :Rextract
 map <Leader><Leader>r :RV<CR>
 map <Leader><Leader>a :AV<CR>
-map <Leader>r :R<CR>
+au FileType rb map <Leader>r :R<CR>
 map <Leader>a :A<CR>
 
 let g:airline_powerline_fonts=1
@@ -171,6 +177,8 @@ if has("mac") || has("macunix")
 endif
 
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
 vmap <Leader>y :call I18nTranslateString()<CR>
 vmap <Leader>dt :call I18nDisplayTranslation()<CR>
@@ -274,3 +282,20 @@ function! GenerateCtags()
 endfunction
 
 command! GenerateCtags call GenerateCtags()
+
+function! FollowTag()
+  if !exists("w:tagbrowse")
+    vsplit
+    let w:tagbrowse=1
+  endif
+  execute "tag " . expand("<cword>")
+endfunction
+
+nnoremap <leader>] :call FollowTag()<CR>
+
+let g:go_term_enabled = 1
+let g:go_fmt_command='goimports'
+autocmd FileType go nmap <leader>b  <Plug>(go-build)
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
+autocmd FileType map <leader>n :cnext<CR>
+autocmd FileType noremap <leader>a :cclose<CR>
