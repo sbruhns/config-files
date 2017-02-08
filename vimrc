@@ -17,7 +17,7 @@ Plugin 'jgdavey/vim-turbux'
 Plugin 'tpope/vim-abolish'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
-Plugin 'garbas/vim-snipmate'
+" Plugin 'garbas/vim-snipmate'
 Plugin 'Shougo/neosnippet'
 Plugin 'Shougo/neosnippet-snippets'
 Plugin 'honza/vim-snippets'
@@ -28,26 +28,29 @@ Plugin 'Shougo/neocomplete.vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'elzr/vim-json'
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'joshdick/onedark.vim'
 Plugin 'fatih/vim-go'
 Plugin 'ngmy/vim-rubocop'
 Plugin 'morhetz/gruvbox'
-Plugin 'flazz/vim-colorschemes'
 Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'jodosha/vim-godebug'
+Plugin 'mattn/emmet-vim'
+Plugin 'trevordmiller/nova-vim'
 call vundle#end()            " required
 
 set nocompatible
 set encoding=utf-8
 filetype plugin indent on
-
+set term=xterm-256color
+set t_ut=
+" set t_Co=256
+" let g:rehash256 = 1
+colorscheme nova
 set number
 syntax on
-colorscheme gruvbox
-set t_Co=256
 " highlight Normal ctermbg=white
-set background=dark
-" highlight Normal ctermfg=blue ctermbg=none
+" set background=dark
+" highlight Normal  ctermbg=none
 
 let mapleader=","
 
@@ -181,8 +184,6 @@ let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
-vmap <Leader>y :call I18nTranslateString()<CR>
-vmap <Leader>dt :call I18nDisplayTranslation()<CR>
 nmap <Leader>b :TagbarToggle<CR>
 
 nmap <space> viw
@@ -204,7 +205,6 @@ endfunction
 
 nnoremap <leader>] :call FollowTag()<CR>
 
-let g:go_term_enabled = 1
 let g:go_fmt_command='goimports'
 let g:go_alternate_mode = "vsplit"
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
@@ -300,12 +300,52 @@ autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType go setlocal omnifunc=go#complete#Complete
 autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-
+autocmd BufNewFile,BufRead *.slim setlocal filetype=slim
 
 " Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
+
 endif
-"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+nmap <space> viw
+nmap ts :ts<CR>
+
+function! GenerateCtags()
+  :!ctags -R --languages=ruby --exclude=.git --exclude=tmp --exclude=log . $(bundle list --paths)
+endfunction
+
+command! GenerateCtags call GenerateCtags()
+
+function! FollowTag()
+  if !exists("w:tagbrowse")
+    vsplit
+    let w:tagbrowse=1
+  endif
+  execute "tag " . expand("<cword>")
+endfunction
+
+nnoremap <leader>] :call FollowTag()<CR>
+
+let g:go_term_mode = "vsplit"
+let g:go_fmt_command='goimports'
+autocmd FileType go nmap <leader>b  <Plug>(go-build)
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
+autocmd FileType map <leader>n :cnext<CR>
+autocmd FileType noremap <leader>a :cclose<CR>
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=2 shiftwidth=2
+
+autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set number
+  else
+    set relativenumber
+  endif
+endfunc
