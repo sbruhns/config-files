@@ -17,14 +17,14 @@ Plugin 'jgdavey/vim-turbux'
 Plugin 'tpope/vim-abolish'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
-" Plugin 'garbas/vim-snipmate'
 Plugin 'Shougo/neosnippet'
 Plugin 'Shougo/neosnippet-snippets'
 Plugin 'honza/vim-snippets'
 Plugin 'slim-template/vim-slim'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'scrooloose/syntastic'
-Plugin 'Shougo/neocomplete.vim'
+" Plugin 'Shougo/neocomplete.vim'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'mileszs/ack.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'elzr/vim-json'
@@ -33,23 +33,35 @@ Plugin 'fatih/vim-go'
 Plugin 'ngmy/vim-rubocop'
 Plugin 'morhetz/gruvbox'
 Plugin 'ekalinin/Dockerfile.vim'
-Plugin 'jodosha/vim-godebug'
+" Plugin 'jodosha/vim-godebug'
 Plugin 'mattn/emmet-vim'
 Plugin 'trevordmiller/nova-vim'
+Plugin 'iurifq/ctrlp-rails.vim'
+Plugin 'ElmCast/elm-vim'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'elixir-lang/vim-elixir'
+Plugin 'slashmili/alchemist.vim'
+Plugin 'c-brenn/phoenix.vim'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'Quramy/tsuquyomi'
+Plugin 'editorconfig/editorconfig-vim'
 call vundle#end()            " required
 
 set nocompatible
 set encoding=utf-8
 filetype plugin indent on
 set term=xterm-256color
-set t_ut=
-" set t_Co=256
+" set term=screen-256color
+" set t_ut=
+" set t_Co=16
 " let g:rehash256 = 1
-colorscheme nova
+colorscheme gruvbox
 set number
+" let g:solarized_termcolors=16
 syntax on
 " highlight Normal ctermbg=white
-" set background=dark
+set background=dark
 " highlight Normal  ctermbg=none
 
 let mapleader=","
@@ -148,13 +160,18 @@ map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 
-let g:rspec_command = "!spring rspec --drb {spec}"
+let g:rspec_command = "rspec {spec}"
 
 " vimux
 map <Leader>. :w<CR>:VimuxRunLastCommand<CR>
 map <Leader>v :VimuxPromptCommand<CR>
+" CtrlP
+set wildignore+=*/elm-stuff/*,*/.git/*
+let g:ctrlp_max_files = 0
+let g:ctrlp_max_depth = 40
 map .t :CtrlP .<CR>
 nnoremap .y :CtrlPTag<cr>
+
 
 " rails vim Mappings
 map <Leader>e :Rextract
@@ -188,7 +205,6 @@ nmap <Leader>b :TagbarToggle<CR>
 
 nmap <space> viw
 nmap ts :ts<CR>
-
 function! GenerateCtags()
   :!ctags -R --languages=ruby --exclude=.git --exclude=log . $(bundle list --paths)
 endfunction
@@ -217,19 +233,19 @@ autocmd Filetype go nmap <leader>I :GoInfo<CR>
 
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
+" imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 " SuperTab like snippets behavior.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 "imap <expr><TAB>
 " \ pumvisible() ? "\<C-n>" :
 " \ neosnippet#expandable_or_jumpable() ?
 " \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " For conceal markers.
 if has('conceal')
@@ -237,49 +253,49 @@ if has('conceal')
 endif
 
 " Enable snipMate compatibility feature.
-let g:neosnippet#enable_snipmate_compatibility = 1
-let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+" let g:neosnippet#enable_snipmate_compatibility = 1
+" let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
 
 "Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
 " Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
+" let g:acp_enableAtStartup = 0
 " Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
+" let g:neocomplete#enable_at_startup = 1
 " Use smartcase.
-let g:neocomplete#enable_smart_case = 1
+" let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 2
+" let g:neocomplete#sources#syntax#min_keyword_length = 2
 
 " Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
+" let g:neocomplete#sources#dictionary#dictionaries = {
+"     \ 'default' : '',
+"     \ 'vimshell' : $HOME.'/.vimshell_hist',
+"     \ 'scheme' : $HOME.'/.gosh_completions'
+        " \ }
 
 " Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+" if !exists('g:neocomplete#keyword_patterns')
+"     let g:neocomplete#keyword_patterns = {}
+" endif
+" let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
 " Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
+" inoremap <expr><C-g>     neocomplete#undo_completion()
+" inoremap <expr><C-l>     neocomplete#complete_common_string()
 
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+" function! s:my_cr_function()
+"   return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
   " For no inserting <CR> key.
   "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
+" endfunction
 " <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 " Close popup by <Space>.
 "inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
 
@@ -293,19 +309,16 @@ inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
 
 " Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType go setlocal omnifunc=go#complete#Complete
-autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-autocmd BufNewFile,BufRead *.slim setlocal filetype=slim
+" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" autocmd FileType go setlocal omnifunc=go#complete#Complete
+" autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+" autocmd BufNewFile,BufRead *.slim setlocal filetype=slim
+" autocmd FileType elm setlocal omnifunc=elmcomplete#Complete
 
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-
-endif
 nmap <space> viw
 nmap ts :ts<CR>
 
@@ -349,3 +362,27 @@ function! NumberToggle()
     set relativenumber
   endif
 endfunc
+
+" filetypes
+au BufNewFile,BufRead *.elm set filetype=elm
+au BufNewFile,BufRead *.elmx set filetype=elm
+au BufNewFile,BufRead *.ex set filetype=elixir
+au BufNewFile,BufRead *.exs set filetype=elixir
+au BufNewFile,BufRead *.eex set filetype=elixir
+au BufNewFile,BufRead *.ts set filetype=typescript
+au BufNewFile,BufRead *.slim set filetype=slim
+
+let g:elm_format_autosave = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+
+let g:elm_syntastic_show_warnings = 1
+let g:turbux_command_rspec  = 'rspec'
+" call neocomplete#util#set_default_dictionary(
+  " \ 'g:neocomplete#sources#omni#input_patterns',
+  " \ 'elm',
+  " \ '\.')
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {'dir':  '\v[\/]\.(git|hg|svn)$ tags', 'file': '\v\.(so|swp|zip|tar)$'}
+
+let g:ycm_semantic_triggers = { 'elm' : ['.'], }

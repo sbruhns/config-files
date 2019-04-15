@@ -11,7 +11,7 @@ ln -sf $current_dir/tmux.conf ~/.tmux.conf
 # install powerline
 if [[ "$1" == "mac" ]]
 then brew install python
-else sudo apt-get install python-pip
+else sudo dnf install python-pip
 fi
 
 pip install --user git+git://github.com/Lokaltog/powerline
